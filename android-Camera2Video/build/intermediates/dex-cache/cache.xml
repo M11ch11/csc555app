@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="C:\Users\Michael\AndroidStudioProjects\android-Camera2Video\Application\build\intermediates\exploded-aar\com.android.support\support-v13\24.1.1\jars\libs\internal_impl-24.1.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="ca74722504f90166103d01edcdfdb93192eb1cba">
+        <dex dex="C:\Users\Michael\AndroidStudioProjects\android-Camera2Video\Application\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.1.1_ef42ab3f30148de6a17203f68a0239d39689b7a6\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Michael\AndroidStudioProjects\android-Camera2Video\Application\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="668427622ef7a32958eaf19d3ee350d1e8de807e">
+        <dex dex="C:\Users\Michael\AndroidStudioProjects\android-Camera2Video\Application\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_5eef9414a1347f77acae076830f6a846c4591148\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Michael\AndroidStudioProjects\android-Camera2Video\Application\build\intermediates\exploded-aar\com.android.support\cardview-v7\24.1.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="4add8aa95c9f4e9a2ad64b7e2bf08e97e28955c1">
+        <dex dex="C:\Users\Michael\AndroidStudioProjects\android-Camera2Video\Application\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-cardview-v7-24.1.1_8ea1619b1bb0314edcb0e1d8eaf12741618bdc5c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Michael\AndroidStudioProjects\android-Camera2Video\Application\build\intermediates\exploded-aar\com.android.support\appcompat-v7\24.1.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="1256c10604bb098490eab070d76754ac5ceab35c">
+        <dex dex="C:\Users\Michael\AndroidStudioProjects\android-Camera2Video\Application\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-24.1.1_9faefd03ba56afb545dafe263a1cc0eac9640789\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Michael\AndroidStudioProjects\android-Camera2Video\Application\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="99a494152d416c6664373bfc1be4473181dabdf5">
+        <dex dex="C:\Users\Michael\AndroidStudioProjects\android-Camera2Video\Application\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_f8b6d311f8b9bb3fd7b879e5b41a75929eae9b3f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Michael\AndroidStudioProjects\android-Camera2Video\Application\build\intermediates\exploded-aar\com.android.support\support-v4\24.1.1\jars\libs\internal_impl-24.1.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="f78c2f395cb096f9dc1dc07e729922b8fcd3c4f5">
+        <dex dex="C:\Users\Michael\AndroidStudioProjects\android-Camera2Video\Application\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.1.1_df3b858cc4097b0a824aef05d49dae1ff76d0d6d\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Michael\AndroidStudioProjects\android-Camera2Video\Application\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\24.1.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="c936c1bd42f0c018c18920c7bec619ef056b24f8">
+        <dex dex="C:\Users\Michael\AndroidStudioProjects\android-Camera2Video\Application\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-24.1.1_73ac2eaf2e4f8cfa5932ad1aebc24ae9bd19d0df\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Michael\AndroidStudioProjects\android-Camera2Video\Application\build\intermediates\exploded-aar\com.android.support\support-v13\24.1.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="327f68d58bb39fb8b585150596b313541f8fdb87">
+        <dex dex="C:\Users\Michael\AndroidStudioProjects\android-Camera2Video\Application\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v13-24.1.1_0d1af47690e44b44f32e9fd7e2fbfc22021dc03c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Michael\AndroidStudioProjects\android-Camera2Video\Application\build\intermediates\exploded-aar\com.android.support\support-v4\24.1.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="6d7d803871e3203465f71a163e7af104f807b446">
+        <dex dex="C:\Users\Michael\AndroidStudioProjects\android-Camera2Video\Application\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-24.1.1_7e5cd9855d3bcafb9961b4141c6e7acdaf590540\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Michael\AndroidStudioProjects\android-Camera2Video\Application\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.1.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="f62e763609f65e47dc6c498760a4accf02776788">
+        <dex dex="C:\Users\Michael\AndroidStudioProjects\android-Camera2Video\Application\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-24.1.1_54084de6fcb88cafaeb2c44fdd486528cfafc73e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Michael\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\24.1.1\support-annotations-24.1.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="3af19f153122737b372622fa6c81dd11a1c6b999">
+        <dex dex="C:\Users\Michael\AndroidStudioProjects\android-Camera2Video\Application\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-24.1.1_65d51534a1dafd07c7908db327b219cc9e25928f\classes.dex" />
+    </item>
+
+</items>
