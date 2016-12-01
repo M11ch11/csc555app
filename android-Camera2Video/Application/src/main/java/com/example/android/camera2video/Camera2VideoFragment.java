@@ -57,18 +57,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import org.json.JSONException;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -109,12 +98,6 @@ public class Camera2VideoFragment extends Fragment
         INVERSE_ORIENTATIONS.append(Surface.ROTATION_270, 0);
     }
 
-    /**
-     * Emotion API parameters
-     */
-    private final static String KAIROS_URL = "https://api.kairos.com/v2/media";
-    private final static String APP_ID = "4985f625";
-    private final static String APP_KEY = "4423301b832793e217d04bc44eb041d3";
 
     /**
      * An {@link AutoFitTextureView} for camera preview.
@@ -351,18 +334,14 @@ public class Camera2VideoFragment extends Fragment
                             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                                     .permitAll().build();
                             StrictMode.setThreadPolicy(policy);
-                            String emotion = getEmotion("/storage/emulated/0/WhatsApp/Media/WhatsApp Images/IMG-20161126-WA0003.jpg");
-                            //String emotion = getEmotion("/storage/emulated/0/DCIM/100ANDRO/MOV_0010.mp4");
-                            if (null != activity) {
-                                new AlertDialog.Builder(activity)
-                                        .setMessage(emotion)
-                                        .setPositiveButton(android.R.string.ok, null)
-                                        .show();
-                            }
+                            String emotion = EmotionalAnalysis.getEmotion("/storage/emulated/0/WhatsApp/Media/WhatsApp Video/VID-20161128-WA0038.mp4");
+                            Log.d("final emotion(s) = ", emotion);
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
@@ -371,69 +350,6 @@ public class Camera2VideoFragment extends Fragment
         }
     }
 
-    private String getEmotion(String filePath) throws IOException, JSONException {
-        //thanks to http://stackoverflow.com/questions/19026256/how-to-upload-multipart-form-data-and-image-to-server-in-android
-        final String LINE_FEED = "\r\n";
-        List<String> response = new ArrayList<>();
-
-        URL url = new URL(KAIROS_URL);
-        HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
-        httpConn.setUseCaches(false);
-        httpConn.setDoOutput(true); // indicates POST method
-        httpConn.setDoInput(true);
-        httpConn.setRequestProperty("Content-Type", "multipart/form-data; boundary=*****boundary*****");
-        httpConn.setRequestProperty("app_id", APP_ID);
-        httpConn.setRequestProperty("app_key", APP_KEY);
-
-        OutputStream outputStream = httpConn.getOutputStream();
-        PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8"), true);
-
-        //add file
-        writer.append("--*****boundary*****").append(LINE_FEED);
-        writer.append("Content-Disposition: form-data; name=\"source\"; " +
-                "filename=\"" + filePath + "\"").append(LINE_FEED);
-        writer.append("Content-Type: " +
-                URLConnection.guessContentTypeFromName(filePath)).append(LINE_FEED);
-        writer.append("Content-Transfer-Encoding: binary").append(LINE_FEED);
-        writer.append(LINE_FEED);
-        writer.flush();
-
-        FileInputStream inputStream = new FileInputStream(new File(filePath));
-        byte[] buffer = new byte[4096];
-        int bytesRead = -1;
-        while ((bytesRead = inputStream.read(buffer)) != -1) {
-            outputStream.write(buffer, 0, bytesRead);
-        }
-        outputStream.flush();
-        inputStream.close();
-
-        writer.append(LINE_FEED);
-        writer.flush();
-
-        writer.append(LINE_FEED).flush();
-        writer.append("--*****boundary*****--").append(LINE_FEED);
-        writer.close();
-        int status = httpConn.getResponseCode();
-        if (status == HttpURLConnection.HTTP_OK) {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    httpConn.getInputStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                response.add(line);
-            }
-            reader.close();
-            httpConn.disconnect();
-        } else {
-            throw new IOException("status code: " + status);
-        }
-
-        String res = "";
-        for (String line : response) {
-            res+=line;
-        }
-
-        return res;
-    }
 
 
 
