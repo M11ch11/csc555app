@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 
@@ -17,24 +16,18 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-// get response to picture given by url
-// next step: use uploaded picture
-
-
-
-
-
-
-
 public class Main {
 
 	private final static String KAIROS_URL = "https://api.kairos.com/v2/media";
 	private final static String APP_ID = "4985f625";
 	private final static String APP_KEY = "4423301b832793e217d04bc44eb041d3";
 
-	
+	/**
+	 * !! We assume that there is only one person on the video, because kairos sometimes makes mistakes and identifies the same person as another.
+	 * So using this app, there should be only one person on the recorded video
+	 * @param mediaId
+	 */
 
-	//deprecated
 	public static void getReq(String mediaId) {
 		//set data for POST, kairos id and key
 		HttpGet httpget = new HttpGet(KAIROS_URL+"/"+mediaId);
@@ -60,7 +53,7 @@ public class Main {
 				Thread.sleep(1000);
 			}
 			System.out.println(content);
-			ArrayList<Person> peopleOnVideo = new ArrayList<>();
+			Person personOnVideo = new Person(0);
 			//System.out.println(content);
 			JSONArray framesArray = obj.getJSONArray("frames");
 			//System.out.println("only frames: " + frames.toString());
@@ -73,21 +66,14 @@ public class Main {
 					JSONObject peopleJSONObj = peopleArray.getJSONObject(p);
 					System.out.println(peopleJSONObj.getString("person_id") + " app: " + peopleJSONObj.get("emotions"));
 					JSONObject emotionsArray = peopleJSONObj.getJSONObject("emotions");
-					System.out.println("surprise =" + String.valueOf(emotionsArray.getDouble("surprise")));
-					//if person already exists, add emotion info for current time frame,
-					//if not, create instance for the new person
-					Person currentPerson = new Person(peopleJSONObj.getInt("person_id"));
-					if (!peopleOnVideo.contains(currentPerson)) {
-						peopleOnVideo.add(currentPerson);
-					}
-					peopleOnVideo.get(peopleOnVideo.indexOf(currentPerson)).addEmotions(emotionsArray.getDouble("surprise"),
+					//System.out.println("surprise =" + String.valueOf(emotionsArray.getDouble("surprise")));
+
+					personOnVideo.addEmotions(emotionsArray.getDouble("surprise"),
 							emotionsArray.getDouble("joy"), emotionsArray.getDouble("sadness"), emotionsArray.getDouble("disgust"),
 							emotionsArray.getDouble("anger"), emotionsArray.getDouble("fear"));
 				}
 			}
-			for (Person person : peopleOnVideo) {
-				System.out.println("Person " + person.toString() + "emotion: " + person.getHighestEmotion());
-			}
+			System.out.println("Person " + personOnVideo.toString() + "emotion: " + personOnVideo.getHighestEmotion());
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -152,73 +138,89 @@ public class Main {
 
 class Person {
 	private int id;
-	private LinkedList<Double> surprise;
-	private LinkedList<Double> joy;
-	private LinkedList<Double> sadness;
-	private LinkedList<Double> disgust;
-	private LinkedList<Double> anger;
-	private LinkedList<Double> fear;
+	LinkedList<Emotion> emotions;
+
 
 	public Person(int id) {
 		this.id = id;
-		this.surprise = new LinkedList<>();
-		this.joy = new LinkedList<>();
-		this.sadness = new LinkedList<>();
-		this.disgust = new LinkedList<>();
-		this.anger = new LinkedList<>();
-		this.fear = new LinkedList<>();
+		emotions = new LinkedList<Emotion>();
+		this.emotions.add(new Emotion("surprise"));
+		this.emotions.add(new Emotion("joy"));
+		this.emotions.add(new Emotion("sadness"));
+		this.emotions.add(new Emotion("disgust"));
+		this.emotions.add(new Emotion("anger"));
+		this.emotions.add(new Emotion("fear"));
 	}
 
-	public void addEmotions(double d, double e, double f, double g, double h, double i) {		
-		this.surprise.add(d);
-		this.joy.add(e);
-		this.sadness.add(f);
-		this.disgust.add(g);
-		this.anger.add(h);
-		this.fear.add(i);
+	public void addEmotions(double surprise, double joy, double sadness, double disgust, double anger, double fear) {
+		this.emotions.get(this.emotions.indexOf(new Emotion("surprise"))).addValue(surprise);
+		this.emotions.get(this.emotions.indexOf(new Emotion("joy"))).addValue(joy);
+		this.emotions.get(this.emotions.indexOf(new Emotion("sadness"))).addValue(sadness);
+		this.emotions.get(this.emotions.indexOf(new Emotion("disgust"))).addValue(disgust);
+		this.emotions.get(this.emotions.indexOf(new Emotion("anger"))).addValue(anger);
+		this.emotions.get(this.emotions.indexOf(new Emotion("fear"))).addValue(fear);
 	}
 
-	private Double getMedian(LinkedList<Double> emotion) {
-		Collections.sort(emotion);
 
-		int indexMiddle = emotion.size() / 2;
-		if (emotion.size()%2 == 1) {
-			return emotion.get(indexMiddle);
-		} else {
-			return (emotion.get(indexMiddle-1) + emotion.get(indexMiddle)) / 2.0;
-		}
-
+	public String getHighestEmotionByMedian() {
+		Collections.sort(this.emotions);
+		return this.emotions.getLast().getType();
 	}
-	
+
 	public String getHighestEmotion() {
-		String highestEmotion = null;
-		double highestValue = -1;
-		if (getMedian(surprise) > highestValue) {
-			highestEmotion = "surprise";
-			highestValue = getMedian(surprise);
+		// check for outlier
+		// based on Tukey, John W (1977). Exploratory Data Analysis:
+		// An outlier is a data point, which has a value outside the range [1.5*0.25quartile, 1.5*0.75quartile]
+
+		// calculate range
+		Collections.sort(this.emotions);
+		double lowerQuartile = Utils.getLowerQuartile(this.emotions);
+		double higherQuartile = Utils.getHigherQuartile(this.emotions);
+		double iqr = higherQuartile - lowerQuartile;					//interquartile ranges
+		double lowerBound = lowerQuartile - 1.5*iqr;
+		double higherBound = higherQuartile + 1.5*iqr;
+
+		System.out.println("outlier < " + lowerBound + " or > " + higherBound);
+
+		// which is the outlier? (if there is exactly one)
+		int countOutlier = 0;
+		int indexOfOutlier = -1;
+		for (Emotion e : this.emotions) {
+			if ((countOutlier == 0) && ((e.getMedian() < lowerBound) || (e.getMedian() > higherBound))) {
+				countOutlier++;
+				indexOfOutlier = this.emotions.indexOf(e);
+				System.out.println("outlier found: " + e.getType() + " = " + e.getMedian());
+			}
 		}
-		if (getMedian(joy) > highestValue) {
-			highestEmotion = "joy";
-			highestValue = getMedian(joy);
+		if (countOutlier == 1) {
+			return this.emotions.get(indexOfOutlier).getType();
 		}
-		if (getMedian(sadness) > highestValue) {
-			highestEmotion = "sadness";
-			highestValue = getMedian(sadness);
+
+		// if there is none, add the pos, add the neg, compare => positive, negative resonse
+		// assume that surprise and joy are positive, sadness, disgust, anger and fear are negative emotions
+		// compare if the means of the positive and the negative emotions are about equal or not
+		// according to https://github.com/kairosinc/api-examples/blob/master/demo/emotion/js/highchartsApp.js:100, the maximum value of an emotion is 100
+		// we say, if they are in the not more than 10 points away from each other => neutral
+		double meanPositive = (this.emotions.get(this.emotions.indexOf(new Emotion("surprise"))).getMedian() + 
+				this.emotions.get(this.emotions.indexOf(new Emotion("joy"))).getMedian()) / 2.0;
+
+		double meanNegative = (this.emotions.get(this.emotions.indexOf(new Emotion("sadness"))).getMedian() + 
+				this.emotions.get(this.emotions.indexOf(new Emotion("disgust"))).getMedian() + 
+				this.emotions.get(this.emotions.indexOf(new Emotion("anger"))).getMedian() + 
+				this.emotions.get(this.emotions.indexOf(new Emotion("fear"))).getMedian() / 4.0);
+
+		System.out.println("meanPositive = " + meanPositive + ", meanNegative = " + meanNegative);
+
+		if (Math.abs(meanPositive - meanNegative) < 10) {
+			return "neutral";
+		} else if (meanPositive > meanNegative) {
+			return "positive";
+		} else {
+			return "negative";
 		}
-		if (getMedian(disgust) > highestValue) {
-			highestEmotion = "disgust";
-			highestValue = getMedian(disgust);
-		}
-		if (getMedian(anger) > highestValue) {
-			highestEmotion = "anger";
-			highestValue = getMedian(anger);
-		}
-		if (getMedian(fear) > highestValue) {
-			highestEmotion = "fear";
-			highestValue = getMedian(fear);
-		}
-		return highestEmotion;
 	}
+
+
 
 	@Override
 	public String toString() {
@@ -245,7 +247,56 @@ class Person {
 		if (id != other.id)
 			return false;
 		return true;
+	}	
+}
+
+class Emotion implements Comparable<Emotion> {
+	private String type;
+	LinkedList<Double> allValues;
+	private double median;
+
+	public Emotion(String type) {
+		this.type = type;
+		allValues = new LinkedList<>();
 	}
 
-	
+	public void addValue(double v) {
+		allValues.add(v);
+		calculateMedian();
+	}
+
+	private void calculateMedian() {
+		median = Utils.getQuartile(allValues, 0.5);
+	}
+
+	public double getMedian() {
+		return median;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public boolean equals(Object anObject) {
+		return type.equals(((Emotion) anObject).type);
+	}
+
+	public String toString() {
+		return type.toString();
+	}
+
+	@Override
+	public int compareTo(Emotion o) {
+		if (median == o.median) {
+			return 0;
+		} else if  (median > o.median) {
+			return 1;
+		} else {
+			return -1;
+		}
+	}
+
 }
+
+
+
