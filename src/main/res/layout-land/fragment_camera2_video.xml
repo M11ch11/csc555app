@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+ Copyright 2014 The Android Open Source Project
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+
+    <EditText
+        android:id="@+id/textview"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:background="#FFFFFF"
+        android:inputType="textAutoCorrect|textMultiLine"
+        android:gravity="top|left"
+        />
+
+
+
+  <FrameLayout
+      android:layout_width="match_parent"
+      android:layout_height="5dp"
+      android:background="#AADE87"></FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#AADE87"></FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:background="#FFFFFF"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="170dp"
+            android:src="@drawable/left_frame"
+            android:layout_gravity="center_vertical"/>
+
+        <com.example.android.camera2video.AutoFitTextureView
+            android:id="@+id/texture"
+            android:layout_width="250dp"
+            android:layout_height="170dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="170dp"
+            android:src="@drawable/right_frame"
+            android:layout_gravity="center_vertical"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <FrameLayout
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:background="#FFDD55"
+            android:layout_gravity="center">
+
+            <Button
+                android:id="@+id/video"
+                android:layout_width="100dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:text="@string/record"
+                />
+
+        </FrameLayout>
+
+
+        <FrameLayout
+            android:layout_width="400dp"
+            android:layout_height="match_parent"
+            android:background="#FFFFFF"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:id="@+id/wordmark"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/sentimeant_linear_wordmark"
+                android:padding="10dp"
+                android:layout_gravity="center"
+                />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:background="#FFDD55"
+            android:layout_gravity="center">
+
+            <Button
+                android:id="@+id/smsreply"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:text="@string/reply"
+                />
+
+        </FrameLayout>
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
