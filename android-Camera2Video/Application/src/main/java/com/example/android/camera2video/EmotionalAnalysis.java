@@ -30,8 +30,8 @@ import java.util.List;
 public final class EmotionalAnalysis {
 
     private final static String KAIROS_URL = "https://api.kairos.com/v2/media";
-    private final static String APP_ID = "4985f625";
-    private final static String APP_KEY = "4423301b832793e217d04bc44eb041d3";
+    private final static String APP_ID = "***";
+    private final static String APP_KEY = "***";
 
     /**
      * Returns the overall emotion to a mp4 video
