@@ -19,8 +19,8 @@ import org.json.JSONException;
 public class Main {
 
 	private final static String KAIROS_URL = "https://api.kairos.com/v2/media";
-	private final static String APP_ID = "4985f625";
-	private final static String APP_KEY = "4423301b832793e217d04bc44eb041d3";
+	private final static String APP_ID = "*****";
+	private final static String APP_KEY = "*****";
 
 	/**
 	 * !! We assume that there is only one person on the video, because kairos sometimes makes mistakes and identifies the same person as another.
